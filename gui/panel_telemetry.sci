@@ -191,11 +191,8 @@ endfunction
 function plot_signals()
     global telemetry_handles, signal_state;
     
-    // Get current axes
-    axes(telemetry_handles.input_axes);
+    // Clear previous plots
     clf(telemetry_handles.input_axes);
-    
-    axes(telemetry_handles.output_axes);
     clf(telemetry_handles.output_axes);
     
     if isempty(signal_state.raw_signal) then
@@ -207,7 +204,6 @@ function plot_signals()
     t = linspace(0, 60, n);  // 60 seconds
     
     // Plot noisy input signal
-    axes(telemetry_handles.input_axes);
     plot(t, signal_state.raw_signal, "r-", "linewidth", 1);
     a = gca();
     a.background = [0.1, 0.1, 0.15];
@@ -220,7 +216,6 @@ function plot_signals()
     a.box = "on";
     
     // Plot filtered output signal
-    axes(telemetry_handles.output_axes);
     plot(t, signal_state.filtered_signal, "g-", "linewidth", 1.5);
     a = gca();
     a.background = [0.1, 0.1, 0.15];

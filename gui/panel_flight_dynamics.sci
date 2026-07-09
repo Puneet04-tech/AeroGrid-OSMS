@@ -167,11 +167,11 @@ endfunction
 function plot_orbit()
     global flight_handles, orbit_state;
     
-    // Get current axes
-    axes(flight_handles.orbit_axes);
+    // Get current axes handle
+    current_ax = flight_handles.orbit_axes;
     
     // Clear previous plot
-    clf(flight_handles.orbit_axes);
+    clf(current_ax);
     
     // Draw Earth
     theta = linspace(0, 2*%pi, 100);
@@ -195,7 +195,6 @@ function plot_orbit()
          "markerfacecolor", "r");
     
     // Set axes properties
-    axes(flight_handles.orbit_axes);
     a = gca();
     a.data_bounds = [-R_earth * 1.5, -R_earth * 1.5; R_earth * 1.5, R_earth * 1.5];
     a.box = "on";
