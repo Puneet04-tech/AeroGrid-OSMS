@@ -144,19 +144,13 @@ function build_telemetry_panel(parent, panel_width, panel_height)
         "horizontalalignment", "center" ..
     );
     
-    // Input signal axes (Noisy)
-    telemetry_handles.input_axes = axes(..
-        "parent", parent, ..
-        "position", [0.05, 0.25, 0.9, 0.15], ..
-        "tag", "input_axes" ..
-    );
+    // Input signal axes (Noisy) - create using subplot
+    subplot(2, 1, 1);
+    telemetry_handles.input_axes = gca();
     
-    // Output signal axes (Filtered)
-    telemetry_handles.output_axes = axes(..
-        "parent", parent, ..
-        "position", [0.05, 0.08, 0.9, 0.15], ..
-        "tag", "output_axes" ..
-    );
+    // Output signal axes (Filtered) - create using subplot
+    subplot(2, 1, 2);
+    telemetry_handles.output_axes = gca();
     
     // Initial signal plots
     plot_signals();

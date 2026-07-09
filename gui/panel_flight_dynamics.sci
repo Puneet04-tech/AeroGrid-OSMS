@@ -83,12 +83,9 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
         "fontsize", 9 ..
     );
     
-    // Orbit display axes
-    flight_handles.orbit_axes = axes(..
-        "parent", parent, ..
-        "position", [0.05, 0.35, 0.9, 0.35], ..
-        "tag", "orbit_axes" ..
-    );
+    // Orbit display axes - create using subplot
+    subplot(1, 1, 1);
+    flight_handles.orbit_axes = gca();
     
     // Initial orbit plot
     plot_orbit();
