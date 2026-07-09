@@ -83,9 +83,8 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
         "fontsize", 9 ..
     );
     
-    // Orbit display axes - create using subplot
-    subplot(1, 1, 1);
-    flight_handles.orbit_axes = gca();
+    // Orbit display axes - store parent handle
+    flight_handles.orbit_axes = parent;
     
     // Initial orbit plot
     plot_orbit();
@@ -164,11 +163,9 @@ endfunction
 function plot_orbit()
     global flight_handles, orbit_state;
     
-    // Get current axes handle
-    current_ax = flight_handles.orbit_axes;
-    
-    // Clear previous plot
-    clf(current_ax);
+    // Create new figure for orbit plot
+    scf(1);
+    clf();
     
     // Draw Earth
     theta = linspace(0, 2*%pi, 100);

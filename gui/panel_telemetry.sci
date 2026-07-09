@@ -144,13 +144,11 @@ function build_telemetry_panel(parent, panel_width, panel_height)
         "horizontalalignment", "center" ..
     );
     
-    // Input signal axes (Noisy) - create using subplot
-    subplot(2, 1, 1);
-    telemetry_handles.input_axes = gca();
+    // Input signal axes (Noisy) - store parent handle
+    telemetry_handles.input_axes = parent;
     
-    // Output signal axes (Filtered) - create using subplot
-    subplot(2, 1, 2);
-    telemetry_handles.output_axes = gca();
+    // Output signal axes (Filtered) - store parent handle
+    telemetry_handles.output_axes = parent;
     
     // Initial signal plots
     plot_signals();
@@ -185,10 +183,6 @@ endfunction
 function plot_signals()
     global telemetry_handles, signal_state;
     
-    // Clear previous plots
-    clf(telemetry_handles.input_axes);
-    clf(telemetry_handles.output_axes);
-    
     if isempty(signal_state.raw_signal) then
         return;
     end
@@ -197,7 +191,12 @@ function plot_signals()
     n = length(signal_state.raw_signal);
     t = linspace(0, 60, n);  // 60 seconds
     
-    // Plot noisy input signal
+    // Create new figure for signals
+    scf(0);
+    clf();
+    
+    // Plot noisy input signal (top subplot)
+    subplot(2, 1, 1);
     plot(t, signal_state.raw_signal, "r-", "linewidth", 1);
     a = gca();
     a.background = [0.1, 0.1, 0.15];
@@ -209,7 +208,8 @@ function plot_signals()
     a.x_label.text = "Time (s)";
     a.box = "on";
     
-    // Plot filtered output signal
+    // Plot filtered output signal (bottom subplot)
+    subplot(2, 1, 2);
     plot(t, signal_state.filtered_signal, "g-", "linewidth", 1.5);
     a = gca();
     a.background = [0.1, 0.1, 0.15];
