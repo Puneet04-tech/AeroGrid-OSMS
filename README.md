@@ -27,6 +27,7 @@ A comprehensive multi-variable simulation system for IIT Bombay FOSSEE competiti
 ```
 AeroGrid-OSMS/
 ├── main.sce                          # Main execution file
+├── test_modules.sce                  # Module validation test script
 ├── modules/
 │   ├── orbit_mechanics.sci          # Orbital mechanics calculations
 │   ├── dsp_filter.sci               # Digital signal processing filters
@@ -41,6 +42,7 @@ AeroGrid-OSMS/
 ├── data/
 │   └── baseline_solar.csv           # Baseline solar radiation data
 ├── README.md
+├── USER_GUIDE.md                     # Comprehensive user documentation
 └── LICENSE
 ```
 
@@ -68,6 +70,13 @@ AeroGrid-OSMS/
    ```scilab
    exec('main.sce', -1)
    ```
+
+4. (Optional) Test modules:
+   ```scilab
+   exec('test_modules.sce', -1)
+   ```
+
+5. For detailed usage instructions, see [USER_GUIDE.md](USER_GUIDE.md)
 
 ## 📖 Usage Guide
 
