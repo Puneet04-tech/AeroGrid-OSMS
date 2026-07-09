@@ -249,7 +249,7 @@ function update_telemetry_display()
     
     // Calculate SNR
     clean_sig = generate_solar_signal(60, signal_state.sampling_rate, %f);
-    [snr, ~, ~] = calculate_signal_metrics(clean_sig, signal_state.filtered_signal);
+    [snr, rms_err, corr] = calculate_signal_metrics(clean_sig, signal_state.filtered_signal);
     
     // Update SNR display
     telemetry_handles.snr_display.string = sprintf("SNR: %.2f dB", snr);
