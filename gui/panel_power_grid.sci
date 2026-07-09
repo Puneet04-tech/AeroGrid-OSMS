@@ -57,7 +57,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
         "string", "Oxygen Generation (15 kW)", ..
         "position", [10, panel_height - 95, panel_width - 20, 20], ..
         "value", 1, ..
-        "callback", "on_subsystem_toggle('oxygen')", ..
+        "callback", "on_subsystem_toggle(""oxygen"")", ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 1, 1], ..
         "fontsize", 9 ..
@@ -70,7 +70,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
         "string", "Communications (10 kW)", ..
         "position", [10, panel_height - 120, panel_width - 20, 20], ..
         "value", 1, ..
-        "callback", "on_subsystem_toggle('comms')", ..
+        "callback", "on_subsystem_toggle(""comms"")", ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 1, 1], ..
         "fontsize", 9 ..
@@ -83,7 +83,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
         "string", "Cryogenic Labs (25 kW)", ..
         "position", [10, panel_height - 145, panel_width - 20, 20], ..
         "value", 0, ..
-        "callback", "on_subsystem_toggle('cryo_labs')", ..
+        "callback", "on_subsystem_toggle(""cryo_labs"")", ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 1, 1], ..
         "fontsize", 9 ..
