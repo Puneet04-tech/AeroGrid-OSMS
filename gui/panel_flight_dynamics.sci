@@ -228,7 +228,7 @@ function update_flight_display()
     // Calculate and update orbital period
     r = sqrt(orbit_state.position_x^2 + orbit_state.position_y^2);
     v = orbit_state.velocity;
-    [period, ~, ~] = calculate_orbital_elements(r, v);
+    [period, ecc, sma] = calculate_orbital_elements(r, v);
     period_min = period / 60;
     flight_handles.period_display.string = sprintf("Orbital Period: %.1f min", period_min);
     

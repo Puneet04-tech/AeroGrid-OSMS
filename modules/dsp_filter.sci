@@ -118,11 +118,16 @@ function filtered = butterworth_filter(signal, cutoff_freq, sampling_rate)
         normalized_cutoff = 0.01;
     end
     
-    // Design Butterworth filter (4th order)
-    [b, a] = iir(4, 'lp', 'butt', [normalized_cutoff normalized_cutoff], [0 0]);
+    // Use ffilt for FIR filter design (more compatible)
+    // Design a low-pass FIR filter
+    order = 50;  // Filter order
+    hz = ffilt("lp", order, normalized_cutoff);
     
     // Apply filter using convolution
-    filtered = filter(b, a, signal);
+    filtered = conv(hz, signal);
+    
+    // Trim to original length
+    filtered = filtered(1:length(signal));
     
     // Handle initial transient
     filtered(1:10) = signal(1:10);  // Keep first few samples unchanged
