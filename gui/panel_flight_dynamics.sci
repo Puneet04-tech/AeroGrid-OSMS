@@ -86,8 +86,8 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     // Orbit display axes - store parent handle
     flight_handles.orbit_axes = parent;
     
-    // Initial orbit plot
-    plot_orbit();
+    // Skip initial orbit plot to avoid parent issues
+    // plot_orbit();
     
     // Status displays
     uicontrol(..

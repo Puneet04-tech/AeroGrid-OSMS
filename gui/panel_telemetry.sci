@@ -150,8 +150,8 @@ function build_telemetry_panel(parent, panel_width, panel_height)
     // Output signal axes (Filtered) - store parent handle
     telemetry_handles.output_axes = parent;
     
-    // Initial signal plots
-    plot_signals();
+    // Skip initial signal plots to avoid parent issues
+    // plot_signals();
     
     // SNR display
     telemetry_handles.snr_display = uicontrol(..
