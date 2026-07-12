@@ -297,17 +297,30 @@ endfunction
 function on_filter_param_change()
     global telemetry_handles, signal_state;
     
-    // Get new parameter value
-    param_value = telemetry_handles.filter_slider.value;
+    // Check if handle is valid
+    if isempty(telemetry_handles.filter_slider) then
+        return;
+    end
+    
+    // Get new parameter value with error handling
+    try
+        param_value = telemetry_handles.filter_slider.value;
+    catch
+        return;
+    end
     
     // Update based on filter type
     select signal_state.filter_type
     case "moving_average" then
         signal_state.filter_window = param_value;
-        telemetry_handles.filter_label.string = sprintf("Window Size: %d", param_value);
+        if ~isempty(telemetry_handles.filter_label) then
+            telemetry_handles.filter_label.string = sprintf("Window Size: %d", param_value);
+        end
     case "butterworth" then
         signal_state.cutoff_frequency = param_value / 100;  // Scale to reasonable frequency
-        telemetry_handles.filter_label.string = sprintf("Cutoff Freq: %.2f Hz", signal_state.cutoff_frequency);
+        if ~isempty(telemetry_handles.filter_label) then
+            telemetry_handles.filter_label.string = sprintf("Cutoff Freq: %.2f Hz", signal_state.cutoff_frequency);
+        end
     end
     
     // Re-apply filter
@@ -324,10 +337,23 @@ endfunction
 function on_noise_change()
     global telemetry_handles, signal_state, orbit_state;
     
-    // Get new noise level
-    new_noise = telemetry_handles.noise_slider.value;
+    // Check if handle is valid
+    if isempty(telemetry_handles.noise_slider) then
+        return;
+    end
+    
+    // Get new noise level with error handling
+    try
+        new_noise = telemetry_handles.noise_slider.value;
+    catch
+        return;
+    end
+    
     signal_state.noise_level = new_noise;
-    telemetry_handles.noise_label.string = sprintf("Noise Level: %.2f", new_noise);
+    
+    if ~isempty(telemetry_handles.noise_label) then
+        telemetry_handles.noise_label.string = sprintf("Noise Level: %.2f", new_noise);
+    end
     
     // Regenerate signals with new noise level
     generate_test_signals(60, new_noise, orbit_state.eclipse_mode);

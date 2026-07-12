@@ -21,8 +21,12 @@ signal_state = struct(..
 // =============================================================================
 
 function clean_signal = generate_solar_signal(duration, sampling_rate, eclipse_mode)
+    // Limit sampling rate to prevent memory issues
+    max_samples = 10000;  // Maximum number of samples
+    actual_samples = min(duration * sampling_rate, max_samples);
+    
     // Time vector
-    t = linspace(0, duration, duration * sampling_rate);
+    t = linspace(0, duration, actual_samples);
     
     // Base solar power (kW) - typical for ISS solar arrays
     base_power = 250;  
