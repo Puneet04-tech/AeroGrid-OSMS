@@ -194,8 +194,25 @@ function [snr, rms_error, correlation] = calculate_signal_metrics(clean_signal, 
     // Root Mean Square Error
     rms_error = sqrt(mean((filtered_signal - clean_signal).^2));
     
-    // Correlation coefficient
-    correlation = corr(clean_signal, filtered_signal);
+    // Correlation coefficient (manual calculation for vectors)
+    // corr() in Scilab expects scalars, so we compute manually
+    n = length(clean_signal);
+    if n == 0 then
+        correlation = 0;
+        return;
+    end
+    
+    mean_x = mean(clean_signal);
+    mean_y = mean(filtered_signal);
+    
+    numerator = sum((clean_signal - mean_x) .* (filtered_signal - mean_y));
+    denominator = sqrt(sum((clean_signal - mean_x).^2) * sum((filtered_signal - mean_y).^2));
+    
+    if denominator == 0 then
+        correlation = 0;
+    else
+        correlation = numerator / denominator;
+    end
 endfunction
 
 // =============================================================================

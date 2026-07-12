@@ -14,7 +14,8 @@ printf("   AeroGrid-OSMS Initialization\n");
 printf("========================================\n\n");
 
 // Change to script directory to ensure relative paths work
-script_dir = fileparts(get_absolute_file_path(get_script_name()));
+// Use pwd() as fallback for compatibility
+script_dir = pwd();
 cd(script_dir);
 
 // Load all modules in dependency order
