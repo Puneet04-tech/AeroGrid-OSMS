@@ -240,19 +240,31 @@ function update_telemetry_display()
     clean_sig = generate_solar_signal(60, signal_state.sampling_rate, %f);
     [snr, rms_err, corr] = calculate_signal_metrics(clean_sig, signal_state.filtered_signal);
     
-    // Update SNR display
-    telemetry_handles.snr_display.string = sprintf("SNR: %.2f dB", snr);
+    // Update SNR display with handle validation
+    if ~isempty(telemetry_handles.snr_display) then
+        try
+            telemetry_handles.snr_display.string = sprintf("SNR: %.2f dB", snr);
+        catch
+            // Handle is invalid, skip update
+        end
+    end
     
-    // Update filter info
-    select signal_state.filter_type
-    case "moving_average" then
-        telemetry_handles.filter_info.string = sprintf(..
-            "Filter: Moving Average (Window: %d)", signal_state.filter_window);
-    case "butterworth" then
-        telemetry_handles.filter_info.string = sprintf(..
-            "Filter: Butterworth (Cutoff: %.2f Hz)", signal_state.cutoff_frequency);
-    else
-        telemetry_handles.filter_info.string = "Filter: None";
+    // Update filter info with handle validation
+    if ~isempty(telemetry_handles.filter_info) then
+        try
+            select signal_state.filter_type
+            case "moving_average" then
+                telemetry_handles.filter_info.string = sprintf(..
+                    "Filter: Moving Average (Window: %d)", signal_state.filter_window);
+            case "butterworth" then
+                telemetry_handles.filter_info.string = sprintf(..
+                    "Filter: Butterworth (Cutoff: %.2f Hz)", signal_state.cutoff_frequency);
+            else
+                telemetry_handles.filter_info.string = "Filter: None";
+            end
+        catch
+            // Handle is invalid, skip update
+        end
     end
 endfunction
 
