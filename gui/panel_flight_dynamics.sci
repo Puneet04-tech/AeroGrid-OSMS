@@ -225,29 +225,41 @@ function update_flight_display()
     period_min = period / 60;
     flight_handles.period_display.string = sprintf("Orbital Period: %.1f min", period_min);
     
-    // Update eclipse display
-    if orbit_state.eclipse_mode then
-        flight_handles.eclipse_display.string = "Eclipse Mode: ON";
-        flight_handles.eclipse_display.foreground = [1, 0.5, 0.5];
-    else
-        flight_handles.eclipse_display.string = "Eclipse Mode: OFF";
-        flight_handles.eclipse_display.foreground = [1, 1, 0.3];
+    // Update eclipse display with handle validation
+    if ~isempty(flight_handles.eclipse_display) then
+        try
+            if orbit_state.eclipse_mode then
+                flight_handles.eclipse_display.string = "Eclipse Mode: ON";
+                flight_handles.eclipse_display.foreground = [1, 0.5, 0.5];
+            else
+                flight_handles.eclipse_display.string = "Eclipse Mode: OFF";
+                flight_handles.eclipse_display.foreground = [1, 1, 0.3];
+            end
+        catch
+            // Handle is invalid, skip update
+        end
     end
     
-    // Update status text
-    if orbit_state.critical_attrition then
-        flight_handles.status_text.string = "CRITICAL ATTRITION DETECTED";
-        flight_handles.status_text.foreground = [1, 0.2, 0.2];
-        // Blink effect (simplified)
-        if modulo(getdate()(9), 2) == 0 then
-            flight_handles.status_text.background = [0.5, 0.1, 0.1];
-        else
-            flight_handles.status_text.background = [0.15, 0.15, 0.2];
+    // Update status text with handle validation
+    if ~isempty(flight_handles.status_text) then
+        try
+            if orbit_state.critical_attrition then
+                flight_handles.status_text.string = "CRITICAL ATTRITION DETECTED";
+                flight_handles.status_text.foreground = [1, 0.2, 0.2];
+                // Blink effect (simplified)
+                if modulo(getdate()(9), 2) == 0 then
+                    flight_handles.status_text.background = [0.5, 0.1, 0.1];
+                else
+                    flight_handles.status_text.background = [0.15, 0.15, 0.2];
+                end
+            else
+                flight_handles.status_text.string = "Status: NOMINAL";
+                flight_handles.status_text.foreground = [0.3, 1, 0.3];
+                flight_handles.status_text.background = [0.15, 0.15, 0.2];
+            end
+        catch
+            // Handle is invalid, skip update
         end
-    else
-        flight_handles.status_text.string = "Status: NOMINAL";
-        flight_handles.status_text.foreground = [0.3, 1, 0.3];
-        flight_handles.status_text.background = [0.15, 0.15, 0.2];
     end
     
     // Update orbit plot

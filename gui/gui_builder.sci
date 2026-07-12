@@ -323,8 +323,15 @@ function update_status(message, color)
         fg_color = [1, 1, 1];
     end
     
-    gui_handles.status_bar.string = message;
-    gui_handles.status_bar.foreground = fg_color;
+    // Update status bar with handle validation
+    if ~isempty(gui_handles.status_bar) then
+        try
+            gui_handles.status_bar.string = message;
+            gui_handles.status_bar.foreground = fg_color;
+        catch
+            // Handle is invalid, skip update
+        end
+    end
 endfunction
 
 // =============================================================================
