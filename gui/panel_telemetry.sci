@@ -191,8 +191,8 @@ function plot_signals()
     n = length(signal_state.raw_signal);
     t = linspace(0, 60, n);  // 60 seconds
     
-    // Create new figure for signals
-    scf(0);
+    // Create new figure for signals (use figure 100 to avoid conflict with main GUI)
+    scf(100);
     clf();
     
     // Plot noisy input signal (top subplot)

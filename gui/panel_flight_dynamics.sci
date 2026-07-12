@@ -163,8 +163,8 @@ endfunction
 function plot_orbit()
     global flight_handles, orbit_state;
     
-    // Create new figure for orbit plot
-    scf(1);
+    // Create new figure for orbit plot (use figure 101 to avoid conflict with main GUI)
+    scf(101);
     clf();
     
     // Draw Earth
