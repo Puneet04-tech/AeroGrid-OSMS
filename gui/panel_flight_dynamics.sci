@@ -14,7 +14,8 @@ flight_handles = struct(..
     "status_text", [], ..
     "velocity_display", [], ..
     "period_display", [], ..
-    "eclipse_display", [] ..
+    "eclipse_display", [], ..
+    "eclipse_toggle", [] ..
 );
 
 // =============================================================================
@@ -127,6 +128,18 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
         "position", [10, panel_height * 0.32 - 95, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 1, 0.3], ..
+        "fontsize", 9 ..
+    );
+    
+    // Eclipse mode toggle button
+    flight_handles.eclipse_toggle = uicontrol(..
+        "parent", parent, ..
+        "style", "pushbutton", ..
+        "string", "Toggle Eclipse Mode", ..
+        "position", [10, panel_height * 0.32 - 120, panel_width - 20, 20], ..
+        "callback", "on_eclipse_toggle()", ..
+        "background", [0.4, 0.4, 0.5], ..
+        "foreground", [1, 1, 1], ..
         "fontsize", 9 ..
     );
     
@@ -316,4 +329,24 @@ function on_thruster_fire()
     
     // Update display
     update_flight_display();
+endfunction
+
+// =============================================================================
+// On Eclipse Toggle Callback
+// =============================================================================
+
+function on_eclipse_toggle()
+    global orbit_state;
+    
+    // Toggle eclipse mode
+    orbit_state.eclipse_mode = ~orbit_state.eclipse_mode;
+    
+    // Update display
+    update_flight_display();
+    
+    if orbit_state.eclipse_mode then
+        printf("Eclipse mode toggled ON\n");
+    else
+        printf("Eclipse mode toggled OFF\n");
+    end
 endfunction
