@@ -15,7 +15,8 @@ telemetry_handles = struct(..
     "input_axes", [], ..
     "output_axes", [], ..
     "snr_display", [], ..
-    "filter_info", [] ..
+    "filter_info", [], ..
+    "apply_filter_button", [] ..
 );
 
 // =============================================================================
@@ -172,6 +173,18 @@ function build_telemetry_panel(parent, panel_width, panel_height)
         "position", [panel_width / 2, panel_height * 0.07, (panel_width - 20) / 2 - 5, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.8, 0.8, 1], ..
+        "fontsize", 9 ..
+    );
+    
+    // Apply Filter button
+    telemetry_handles.apply_filter_button = uicontrol(..
+        "parent", parent, ..
+        "style", "pushbutton", ..
+        "string", "Apply Filter", ..
+        "position", [10, panel_height * 0.07 + 25, panel_width - 20, 25], ..
+        "callback", "on_apply_filter()", ..
+        "background", [0.4, 0.4, 0.6], ..
+        "foreground", [1, 1, 1], ..
         "fontsize", 9 ..
     );
 endfunction
@@ -374,4 +387,20 @@ function on_noise_change()
     update_telemetry_display();
     
     printf("Noise level changed to: %.2f\n", new_noise);
+endfunction
+
+// =============================================================================
+// On Apply Filter Callback
+// =============================================================================
+
+function on_apply_filter()
+    global signal_state;
+    
+    // Re-apply filter
+    apply_filter();
+    
+    // Update display
+    update_telemetry_display();
+    
+    printf("Filter applied manually\n");
 endfunction

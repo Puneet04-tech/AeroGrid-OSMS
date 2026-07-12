@@ -16,7 +16,9 @@ power_handles = struct(..
     "battery_bar", [], ..
     "finance_display", [], ..
     "efficiency_meter", [], ..
-    "mission_status", [] ..
+    "mission_status", [], ..
+    "emergency_button", [], ..
+    "export_button", [] ..
 );
 
 // =============================================================================
@@ -226,7 +228,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
         "parent", parent, ..
         "style", "text", ..
         "string", "Mission Status: NORMAL", ..
-        "position", [10, 10, panel_width - 20, 25], ..
+        "position", [10, 75, panel_width - 20, 25], ..
         "background", [0.15, 0.15, 0.2], ..
         "foreground", [0.3, 1, 0.3], ..
         "fontsize", 10, ..
@@ -244,6 +246,30 @@ function build_power_grid_panel(parent, panel_width, panel_height)
         "foreground", [0.6, 0.6, 0.8], ..
         "fontsize", 8, ..
         "horizontalalignment", "center" ..
+    );
+    
+    // Emergency Noise Injection button
+    power_handles.emergency_button = uicontrol(..
+        "parent", parent, ..
+        "style", "pushbutton", ..
+        "string", "⚠ Emergency Noise Injection", ..
+        "position", [10, 45, panel_width - 20, 25], ..
+        "callback", "trigger_emergency()", ..
+        "background", [0.8, 0.2, 0.2], ..
+        "foreground", [1, 1, 1], ..
+        "fontsize", 9 ..
+    );
+    
+    // Export Data button
+    power_handles.export_button = uicontrol(..
+        "parent", parent, ..
+        "style", "pushbutton", ..
+        "string", "Export Data", ..
+        "position", [10, 15, panel_width - 20, 25], ..
+        "callback", "export_all_data()", ..
+        "background", [0.3, 0.3, 0.6], ..
+        "foreground", [1, 1, 1], ..
+        "fontsize", 9 ..
     );
 endfunction
 

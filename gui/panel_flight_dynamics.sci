@@ -51,8 +51,8 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.altitude_slider = uicontrol(..
         "parent", parent, ..
         "style", "slider", ..
-        "min", 200, ..
-        "max", 1000, ..
+        "min", 300, ..
+        "max", 700, ..
         "value", 400, ..
         "position", [10, panel_height - 110, panel_width - 20, 25], ..
         "callback", "on_altitude_change()", ..
