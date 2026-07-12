@@ -105,16 +105,23 @@ function update_orbit_state(dt)
     // Calculate current velocity
     orbit_state.velocity = sqrt(orbit_state.velocity_x^2 + orbit_state.velocity_y^2);
     
-    // Check for critical attrition
-    if orbit_state.altitude < 200e3  // Below 200 km
+    // Check for critical attrition (altitude too low for stable orbit)
+    // Set threshold to 350km so it's within slider range (300-700km)
+    if orbit_state.altitude < 350e3  // Below 350 km - atmospheric drag becomes critical
         orbit_state.critical_attrition = %t;
     else
         orbit_state.critical_attrition = %f;
     end
     
     // Check for eclipse (simplified: when satellite is behind Earth)
-    // This is a simplified model - assumes Earth is at origin
+    // This is a simplified model - assumes Earth is at origin and sun is at +X
+    // Eclipse occurs when satellite is on the negative X side of Earth
     orbit_state.eclipse_mode = (orbit_state.position_x < 0);
+    
+    // For manual testing: if altitude is very low, force eclipse mode to show effect
+    if orbit_state.altitude < 350e3 then
+        orbit_state.eclipse_mode = %t;  // Force eclipse for low altitudes
+    end
 endfunction
 
 // =============================================================================

@@ -283,6 +283,9 @@ function on_altitude_change()
     // Update orbit state
     init_orbit(new_altitude_km, new_velocity);
     
+    // Update orbital state to calculate eclipse and critical attrition
+    update_orbit_state(1);
+    
     // Update display
     update_flight_display();
     
