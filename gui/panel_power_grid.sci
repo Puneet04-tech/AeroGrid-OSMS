@@ -280,107 +280,173 @@ endfunction
 function update_power_display()
     global power_handles, power_state, finance_state;
     
-    // Update battery bar
-    battery_pct = (power_state.battery_charge / power_state.battery_capacity) * 100;
-    power_handles.battery_bar.string = sprintf(..
-        "Battery: %.1f/%.1f kWh (%.1f%%)", ..
-        power_state.battery_charge, power_state.battery_capacity, battery_pct);
-    
-    // Color code battery level
-    if battery_pct < 20 then
-        power_handles.battery_bar.foreground = [1, 0.3, 0.3];
-    elseif battery_pct < 50 then
-        power_handles.battery_bar.foreground = [1, 0.8, 0.3];
-    else
-        power_handles.battery_bar.foreground = [0.3, 1, 0.8];
-    end
-    
-    // Update solar input
-    power_handles.solar_display.string = sprintf(..
-        "Solar Input: %.1f kW", power_state.solar_input);
-    
-    // Update consumer load
-    power_handles.load_display.string = sprintf(..
-        "Consumer Load: %.1f kW", power_state.consumer_load);
-    
-    // Update net power
-    power_handles.net_display.string = sprintf(..
-        "Net Power: %.1f kW", power_state.net_power);
-    
-    // Color code net power
-    if power_state.net_power < 0 then
-        power_handles.net_display.foreground = [1, 0.5, 0.5];
-    else
-        power_handles.net_display.foreground = [0.3, 1, 0.8];
-    end
-    
-    // Update battery health
-    power_handles.health_display.string = sprintf(..
-        "Battery Health: %.1f%%", power_state.battery_health);
-    
-    // Color code battery health
-    if power_state.battery_health < 50 then
-        power_handles.health_display.foreground = [1, 0.3, 0.3];
-    elseif power_state.battery_health < 80 then
-        power_handles.health_display.foreground = [1, 0.8, 0.3];
-    else
-        power_handles.health_display.foreground = [0.3, 1, 0.3];
-    end
-    
-    // Update financial displays
-    budget_remaining = finance_state.remaining_budget / 1e6;
-    power_handles.budget_display.string = sprintf(..
-        "Budget: $%.2fM", budget_remaining);
-    
-    fuel_cost = finance_state.fuel_cost_total / 1e6;
-    power_handles.fuel_cost_display.string = sprintf(..
-        "Fuel Cost: $%.2fM", fuel_cost);
-    
-    power_handles.burns_display.string = sprintf(..
-        "Thruster Burns: %d", finance_state.thruster_burns);
-    
-    power_handles.fuel_display.string = sprintf(..
-        "Fuel Remaining: %.1f kg", finance_state.fuel_remaining);
-    
-    power_handles.efficiency_display.string = sprintf(..
-        "Cost Efficiency: %.1f%%", finance_state.cost_efficiency);
-    
-    // Color code efficiency
-    if finance_state.cost_efficiency < 50 then
-        power_handles.efficiency_display.foreground = [1, 0.3, 0.3];
-    elseif finance_state.cost_efficiency < 80 then
-        power_handles.efficiency_display.foreground = [1, 0.8, 0.3];
-    else
-        power_handles.efficiency_display.foreground = [0.3, 1, 0.3];
-    end
-    
-    // Update mission status
-    power_handles.mission_status.string = "Mission Status: " + power_state.mission_status;
-    
-    // Color code mission status
-    select power_state.mission_status
-    case "NORMAL" then
-        power_handles.mission_status.foreground = [0.3, 1, 0.3];
-        power_handles.mission_status.background = [0.15, 0.15, 0.2];
-    case "WARNING - BATTERY LOW" then
-        power_handles.mission_status.foreground = [1, 0.8, 0.3];
-        power_handles.mission_status.background = [0.2, 0.15, 0.1];
-    case "WARNING - HIGH DRAIN" then
-        power_handles.mission_status.foreground = [1, 0.8, 0.3];
-        power_handles.mission_status.background = [0.2, 0.15, 0.1];
-    case "CRITICAL - LOW BATTERY" then
-        power_handles.mission_status.foreground = [1, 0.3, 0.3];
-        power_handles.mission_status.background = [0.2, 0.1, 0.1];
-    case "MISSION FAILED" then
-        power_handles.mission_status.foreground = [1, 0.2, 0.2];
-        power_handles.mission_status.background = [0.3, 0.05, 0.05];
-        // Blink effect
-        if modulo(getdate()(9), 2) == 0 then
-            power_handles.mission_status.background = [0.5, 0.1, 0.1];
+    // Update battery bar with handle validation
+    if ~isempty(power_handles.battery_bar) then
+        try
+            battery_pct = (power_state.battery_charge / power_state.battery_capacity) * 100;
+            power_handles.battery_bar.string = sprintf(..
+                "Battery: %.1f/%.1f kWh (%.1f%%)", ..
+                power_state.battery_charge, power_state.battery_capacity, battery_pct);
+            
+            // Color code battery level
+            if battery_pct < 20 then
+                power_handles.battery_bar.foreground = [1, 0.3, 0.3];
+            elseif battery_pct < 50 then
+                power_handles.battery_bar.foreground = [1, 0.8, 0.3];
+            else
+                power_handles.battery_bar.foreground = [0.3, 1, 0.8];
+            end
+        catch
+            // Handle is invalid, skip update
         end
-    else
-        power_handles.mission_status.foreground = [1, 1, 1];
-        power_handles.mission_status.background = [0.15, 0.15, 0.2];
+    end
+    
+    // Update solar input with handle validation
+    if ~isempty(power_handles.solar_display) then
+        try
+            power_handles.solar_display.string = sprintf(..
+                "Solar Input: %.1f kW", power_state.solar_input);
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    // Update consumer load with handle validation
+    if ~isempty(power_handles.load_display) then
+        try
+            power_handles.load_display.string = sprintf(..
+                "Consumer Load: %.1f kW", power_state.consumer_load);
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    // Update net power with handle validation
+    if ~isempty(power_handles.net_display) then
+        try
+            power_handles.net_display.string = sprintf(..
+                "Net Power: %.1f kW", power_state.net_power);
+            
+            // Color code net power
+            if power_state.net_power < 0 then
+                power_handles.net_display.foreground = [1, 0.5, 0.5];
+            else
+                power_handles.net_display.foreground = [0.3, 1, 0.8];
+            end
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    // Update battery health with handle validation
+    if ~isempty(power_handles.health_display) then
+        try
+            power_handles.health_display.string = sprintf(..
+                "Battery Health: %.1f%%", power_state.battery_health);
+            
+            // Color code battery health
+            if power_state.battery_health < 50 then
+                power_handles.health_display.foreground = [1, 0.3, 0.3];
+            elseif power_state.battery_health < 80 then
+                power_handles.health_display.foreground = [1, 0.8, 0.3];
+            else
+                power_handles.health_display.foreground = [0.3, 1, 0.3];
+            end
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    // Update financial displays with handle validation
+    if ~isempty(power_handles.budget_display) then
+        try
+            budget_remaining = finance_state.remaining_budget / 1e6;
+            power_handles.budget_display.string = sprintf(..
+                "Budget: $%.2fM", budget_remaining);
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    if ~isempty(power_handles.fuel_cost_display) then
+        try
+            fuel_cost = finance_state.fuel_cost_total / 1e6;
+            power_handles.fuel_cost_display.string = sprintf(..
+                "Fuel Cost: $%.2fM", fuel_cost);
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    if ~isempty(power_handles.burns_display) then
+        try
+            power_handles.burns_display.string = sprintf(..
+                "Thruster Burns: %d", finance_state.thruster_burns);
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    if ~isempty(power_handles.fuel_display) then
+        try
+            power_handles.fuel_display.string = sprintf(..
+                "Fuel Remaining: %.1f kg", finance_state.fuel_remaining);
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    if ~isempty(power_handles.efficiency_display) then
+        try
+            power_handles.efficiency_display.string = sprintf(..
+                "Cost Efficiency: %.1f%%", finance_state.cost_efficiency);
+            
+            // Color code efficiency
+            if finance_state.cost_efficiency < 50 then
+                power_handles.efficiency_display.foreground = [1, 0.3, 0.3];
+            elseif finance_state.cost_efficiency < 80 then
+                power_handles.efficiency_display.foreground = [1, 0.8, 0.3];
+            else
+                power_handles.efficiency_display.foreground = [0.3, 1, 0.3];
+            end
+        catch
+            // Handle is invalid, skip update
+        end
+    end
+    
+    // Update mission status with handle validation
+    if ~isempty(power_handles.mission_status) then
+        try
+            power_handles.mission_status.string = "Mission Status: " + power_state.mission_status;
+            
+            // Color code mission status
+            select power_state.mission_status
+            case "NORMAL" then
+                power_handles.mission_status.foreground = [0.3, 1, 0.3];
+                power_handles.mission_status.background = [0.15, 0.15, 0.2];
+            case "WARNING - BATTERY LOW" then
+                power_handles.mission_status.foreground = [1, 0.8, 0.3];
+                power_handles.mission_status.background = [0.2, 0.15, 0.1];
+            case "WARNING - HIGH DRAIN" then
+                power_handles.mission_status.foreground = [1, 0.8, 0.3];
+                power_handles.mission_status.background = [0.2, 0.15, 0.1];
+            case "CRITICAL - LOW BATTERY" then
+                power_handles.mission_status.foreground = [1, 0.3, 0.3];
+                power_handles.mission_status.background = [0.2, 0.1, 0.1];
+            case "MISSION FAILED" then
+                power_handles.mission_status.foreground = [1, 0.2, 0.2];
+                power_handles.mission_status.background = [0.3, 0.05, 0.05];
+                // Blink effect
+                if modulo(getdate()(9), 2) == 0 then
+                    power_handles.mission_status.background = [0.5, 0.1, 0.1];
+                end
+            else
+                power_handles.mission_status.foreground = [1, 1, 1];
+                power_handles.mission_status.background = [0.15, 0.15, 0.2];
+            end
+        catch
+            // Handle is invalid, skip update
+        end
     end
 endfunction
 
@@ -389,7 +455,7 @@ endfunction
 // =============================================================================
 
 function on_subsystem_toggle(subsystem_name)
-    global power_handles;
+    global power_handles, power_state, orbit_state;
     
     // Toggle the subsystem in power state
     toggle_subsystem(subsystem_name);
@@ -397,8 +463,19 @@ function on_subsystem_toggle(subsystem_name)
     // Recalculate load
     calculate_consumer_load();
     
+    // Update solar input based on eclipse mode (even without simulation running)
+    if orbit_state.eclipse_mode then
+        power_state.solar_input = 0;  // No solar power during eclipse
+    else
+        power_state.solar_input = 50;  // Base solar power during sunlight
+    end
+    
+    // Recalculate net power
+    power_state.net_power = power_state.solar_input - power_state.consumer_load;
+    
     // Update display
     update_power_display();
     
-    printf("Subsystem %s toggled\n", subsystem_name);
+    printf("Subsystem %s toggled - Load: %.1f kW, Net: %.1f kW\n", ..
+           subsystem_name, power_state.consumer_load, power_state.net_power);
 endfunction

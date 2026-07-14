@@ -194,9 +194,15 @@ function init_power_grid(initial_charge, battery_capacity)
     power_state.battery_charge = initial_charge;
     power_state.battery_health = 100;
     power_state.mission_status = "NORMAL";
-    power_state.solar_input = 0;
+    power_state.solar_input = 50;  // Initial solar input (kW)
     power_state.consumer_load = 0;
     power_state.net_power = 0;
+    
+    // Calculate initial consumer load
+    calculate_consumer_load();
+    
+    // Calculate initial net power
+    power_state.net_power = power_state.solar_input - power_state.consumer_load;
 endfunction
 
 // =============================================================================

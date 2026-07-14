@@ -336,17 +336,28 @@ endfunction
 // =============================================================================
 
 function on_eclipse_toggle()
-    global orbit_state;
+    global orbit_state, power_state;
     
     // Toggle eclipse mode
     orbit_state.eclipse_mode = ~orbit_state.eclipse_mode;
     
-    // Update display
+    // Update solar input based on eclipse mode
+    if orbit_state.eclipse_mode then
+        power_state.solar_input = 0;  // No solar power during eclipse
+    else
+        power_state.solar_input = 50;  // Base solar power during sunlight
+    end
+    
+    // Recalculate net power
+    power_state.net_power = power_state.solar_input - power_state.consumer_load;
+    
+    // Update displays
     update_flight_display();
+    update_power_display();
     
     if orbit_state.eclipse_mode then
-        printf("Eclipse mode toggled ON\n");
+        printf("Eclipse mode toggled ON - Solar power disabled\n");
     else
-        printf("Eclipse mode toggled OFF\n");
+        printf("Eclipse mode toggled OFF - Solar power enabled\n");
     end
 endfunction
