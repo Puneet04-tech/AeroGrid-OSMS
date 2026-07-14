@@ -270,6 +270,35 @@ endfunction
 function export_all_data()
     printf("Exporting all mission data...\n");
     
+    // If no historical data, export current state
+    global log_state, orbit_state, power_state, finance_state;
+    
+    if isempty(log_state.telemetry_data) then
+        printf("No historical telemetry data, exporting current state...\n");
+        // Log current state
+        log_telemetry(getdate()(9), power_state.solar_input, [], []);
+    end
+    
+    if isempty(log_state.orbital_data) then
+        printf("No historical orbital data, exporting current state...\n");
+        // Log current state
+        log_orbital_data(getdate()(9), orbit_state.altitude, orbit_state.velocity);
+    end
+    
+    if isempty(log_state.power_data) then
+        printf("No historical power data, exporting current state...\n");
+        // Log current state
+        log_power_data(getdate()(9), power_state.battery_charge, power_state.solar_input, ..
+                      power_state.consumer_load, power_state.net_power, power_state.battery_health);
+    end
+    
+    if isempty(log_state.finance_data) then
+        printf("No historical financial data, exporting current state...\n");
+        // Log current state
+        log_financial_data(getdate()(9), finance_state.remaining_budget, finance_state.fuel_cost_total, ..
+                          finance_state.energy_cost_total, finance_state.fuel_remaining);
+    end
+    
     telemetry_file = export_telemetry_csv();
     orbital_file = export_orbital_csv();
     power_file = export_power_csv();

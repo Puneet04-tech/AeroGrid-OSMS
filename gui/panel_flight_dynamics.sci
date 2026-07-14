@@ -327,8 +327,9 @@ function on_thruster_fire()
     printf("Thrusters fired: Delta-V = %.1f m/s, Cost = $%.2f\n", ..
            delta_v, fuel_cost);
     
-    // Update display
+    // Update displays
     update_flight_display();
+    update_power_display();
 endfunction
 
 // =============================================================================
