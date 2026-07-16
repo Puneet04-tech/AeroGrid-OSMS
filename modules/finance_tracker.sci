@@ -26,7 +26,7 @@ COST_PER_KWH_SOLAR = 0.05;         // $0.05 per kWh (solar)
 // Record Thruster Burn Cost
 // =============================================================================
 
-function record_burn_cost(delta_v, fuel_used, duration)
+function [updated_fuel_cost, updated_fuel_remaining] = record_burn_cost(delta_v, fuel_used, duration)
     global finance_state;
     
     // Calculate fuel cost
@@ -43,6 +43,10 @@ function record_burn_cost(delta_v, fuel_used, duration)
     
     // Recalculate cost efficiency
     calculate_cost_efficiency();
+    
+    // Return updated values
+    updated_fuel_cost = finance_state.fuel_cost_total;
+    updated_fuel_remaining = finance_state.fuel_remaining;
 endfunction
 
 // =============================================================================

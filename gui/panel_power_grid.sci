@@ -288,13 +288,17 @@ function update_power_display()
                 "Battery: %.1f/%.1f kWh (%.1f%%)", ..
                 power_state.battery_charge, power_state.battery_capacity, battery_pct);
             
-            // Color code battery level
-            if battery_pct < 20 then
-                power_handles.battery_bar.foreground = [1, 0.3, 0.3];
-            elseif battery_pct < 50 then
-                power_handles.battery_bar.foreground = [1, 0.8, 0.3];
-            else
-                power_handles.battery_bar.foreground = [0.3, 1, 0.8];
+            // Color code battery level (with try-catch for foreground property)
+            try
+                if battery_pct < 20 then
+                    power_handles.battery_bar.foreground = [1, 0.3, 0.3];
+                elseif battery_pct < 50 then
+                    power_handles.battery_bar.foreground = [1, 0.8, 0.3];
+                else
+                    power_handles.battery_bar.foreground = [0.3, 1, 0.8];
+                end
+            catch
+                // Foreground property not supported, skip color coding
             end
         catch
             // Handle is invalid, skip update
@@ -327,11 +331,15 @@ function update_power_display()
             power_handles.net_display.string = sprintf(..
                 "Net Power: %.1f kW", power_state.net_power);
             
-            // Color code net power
-            if power_state.net_power < 0 then
-                power_handles.net_display.foreground = [1, 0.5, 0.5];
-            else
-                power_handles.net_display.foreground = [0.3, 1, 0.8];
+            // Color code net power (with try-catch for foreground property)
+            try
+                if power_state.net_power < 0 then
+                    power_handles.net_display.foreground = [1, 0.5, 0.5];
+                else
+                    power_handles.net_display.foreground = [0.3, 1, 0.8];
+                end
+            catch
+                // Foreground property not supported, skip color coding
             end
         catch
             // Handle is invalid, skip update
@@ -344,13 +352,17 @@ function update_power_display()
             power_handles.health_display.string = sprintf(..
                 "Battery Health: %.1f%%", power_state.battery_health);
             
-            // Color code battery health
-            if power_state.battery_health < 50 then
-                power_handles.health_display.foreground = [1, 0.3, 0.3];
-            elseif power_state.battery_health < 80 then
-                power_handles.health_display.foreground = [1, 0.8, 0.3];
-            else
-                power_handles.health_display.foreground = [0.3, 1, 0.3];
+            // Color code battery health (with try-catch for foreground property)
+            try
+                if power_state.battery_health < 50 then
+                    power_handles.health_display.foreground = [1, 0.3, 0.3];
+                elseif power_state.battery_health < 80 then
+                    power_handles.health_display.foreground = [1, 0.8, 0.3];
+                else
+                    power_handles.health_display.foreground = [0.3, 1, 0.3];
+                end
+            catch
+                // Foreground property not supported, skip color coding
             end
         catch
             // Handle is invalid, skip update
@@ -401,13 +413,17 @@ function update_power_display()
             power_handles.efficiency_display.string = sprintf(..
                 "Cost Efficiency: %.1f%%", finance_state.cost_efficiency);
             
-            // Color code efficiency
-            if finance_state.cost_efficiency < 50 then
-                power_handles.efficiency_display.foreground = [1, 0.3, 0.3];
-            elseif finance_state.cost_efficiency < 80 then
-                power_handles.efficiency_display.foreground = [1, 0.8, 0.3];
-            else
-                power_handles.efficiency_display.foreground = [0.3, 1, 0.3];
+            // Color code efficiency (with try-catch for foreground property)
+            try
+                if finance_state.cost_efficiency < 50 then
+                    power_handles.efficiency_display.foreground = [1, 0.3, 0.3];
+                elseif finance_state.cost_efficiency < 80 then
+                    power_handles.efficiency_display.foreground = [1, 0.8, 0.3];
+                else
+                    power_handles.efficiency_display.foreground = [0.3, 1, 0.3];
+                end
+            catch
+                // Foreground property not supported, skip color coding
             end
         catch
             // Handle is invalid, skip update

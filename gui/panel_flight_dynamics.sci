@@ -322,7 +322,12 @@ function on_thruster_fire()
     
     // Record cost
     fuel_used = (thrust / (320 * 9.81)) * burn_duration;
-    record_burn_cost(delta_v, fuel_used, burn_duration);
+    
+    [updated_fuel_cost, updated_fuel_remaining] = record_burn_cost(delta_v, fuel_used, burn_duration);
+    
+    // Explicitly update finance_state with returned values
+    finance_state.fuel_cost_total = updated_fuel_cost;
+    finance_state.fuel_remaining = updated_fuel_remaining;
     
     printf("Thrusters fired: Delta-V = %.1f m/s, Cost = $%.2f\n", ..
            delta_v, fuel_cost);
