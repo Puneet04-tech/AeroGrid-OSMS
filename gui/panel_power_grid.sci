@@ -243,7 +243,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Physics: Energy Balance - ΔE = ∫(P_solar - P_load) dt", ..
+        "string", "Physics: Energy Balance - dE = integral(P_solar - P_load) dt", ..
         "position", [10, panel_height * 0.32 - 150, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.6, 0.6, 0.8], ..

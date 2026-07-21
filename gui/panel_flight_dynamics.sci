@@ -162,7 +162,7 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Physics: Newton's Law of Gravitation - F = GMm/r²", ..
+        "string", "Physics: Newton's Law of Gravitation - F = GMm/r^2", ..
         "position", [10, panel_height * 0.32 - 145, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.6, 0.6, 0.8], ..
