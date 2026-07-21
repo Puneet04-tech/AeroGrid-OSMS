@@ -26,35 +26,35 @@ telemetry_handles = struct(..
 function build_telemetry_panel(parent, panel_width, panel_height)
     global telemetry_handles;
     
-    // Panel title
+    // Panel title with description
     telemetry_handles.title = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Panel 2: Deep-Space Telemetry DSP Filter", ..
+        "string", "Panel 2: Deep-Space Telemetry DSP Filter - Signal Processing", ..
         "position", [10, panel_height - 40, panel_width - 20, 30], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 1, 1], ..
-        "fontsize", 12, ..
+        "fontsize", 11, ..
         "fontweight", "bold", ..
         "horizontalalignment", "center" ..
     );
     
-    // Filter type selection
+    // Filter type selection with description
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Filter Type:", ..
+        "string", "Filter Type (Select Noise Reduction Method):", ..
         "position", [10, panel_height - 70, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.8, 0.8, 0.8], ..
         "fontsize", 9 ..
     );
     
-    // Radio buttons for filter type
+    // Radio buttons for filter type with descriptions
     telemetry_handles.filter_type_radio = uicontrol(..
         "parent", parent, ..
         "style", "radiobutton", ..
-        "string", "Moving Average Filter", ..
+        "string", "Moving Average Filter (Simple smoothing, fast)", ..
         "position", [10, panel_height - 95, panel_width - 20, 20], ..
         "value", 1, ..
         "callback", "on_filter_type_change()", ..
@@ -67,7 +67,7 @@ function build_telemetry_panel(parent, panel_width, panel_height)
     uicontrol(..
         "parent", parent, ..
         "style", "radiobutton", ..
-        "string", "Low-pass Butterworth Filter", ..
+        "string", "Low-pass Butterworth Filter (Frequency domain, precise)", ..
         "position", [10, panel_height - 120, panel_width - 20, 20], ..
         "value", 0, ..
         "callback", "on_filter_type_change()", ..
@@ -77,11 +77,11 @@ function build_telemetry_panel(parent, panel_width, panel_height)
         "tag", "radio_butterworth" ..
     );
     
-    // Filter parameter slider
+    // Filter parameter slider with range info
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Filter Parameter (Window Size / Cutoff Freq)", ..
+        "string", "Filter Parameter (Window: 1-50 / Cutoff: 0.01-0.50 Hz)", ..
         "position", [10, panel_height - 150, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.8, 0.8, 0.8], ..
@@ -103,19 +103,20 @@ function build_telemetry_panel(parent, panel_width, panel_height)
     telemetry_handles.filter_label = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Window Size: 5", ..
+        "string", "Current: Window Size = 5 samples", ..
         "position", [10, panel_height - 200, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 0.8, 0.3], ..
         "fontsize", 10, ..
+        "fontweight", "bold", ..
         "horizontalalignment", "center" ..
     );
     
-    // Noise level slider
+    // Noise level slider with range info
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Noise Level (Cosmic Radiation)", ..
+        "string", "Noise Level - Cosmic Radiation Intensity (Range: 0-2)", ..
         "position", [10, panel_height - 230, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.8, 0.8, 0.8], ..
@@ -137,11 +138,12 @@ function build_telemetry_panel(parent, panel_width, panel_height)
     telemetry_handles.noise_label = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Noise Level: 0.5", ..
+        "string", "Current Noise: 0.5 (Moderate radiation)", ..
         "position", [10, panel_height - 280, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 0.8, 0.3], ..
         "fontsize", 10, ..
+        "fontweight", "bold", ..
         "horizontalalignment", "center" ..
     );
     
@@ -154,33 +156,33 @@ function build_telemetry_panel(parent, panel_width, panel_height)
     // Skip initial signal plots to avoid parent issues
     // plot_signals();
     
-    // SNR display
+    // SNR display with description
     telemetry_handles.snr_display = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "SNR: Calculating...", ..
+        "string", "Signal Quality: SNR = Calculating... (dB)", ..
         "position", [10, panel_height * 0.07, (panel_width - 20) / 2 - 5, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.3, 1, 0.8], ..
         "fontsize", 9 ..
     );
     
-    // Filter info
+    // Filter info with more details
     telemetry_handles.filter_info = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Filter: Moving Average (Window: 5)", ..
+        "string", "Active Filter: Moving Average (Window: 5 samples)", ..
         "position", [panel_width / 2, panel_height * 0.07, (panel_width - 20) / 2 - 5, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.8, 0.8, 1], ..
         "fontsize", 9 ..
     );
     
-    // Apply Filter button
+    // Apply Filter button with description
     telemetry_handles.apply_filter_button = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "Apply Filter", ..
+        "string", "🔄 Re-Apply Filter (Process Signal)", ..
         "position", [10, panel_height * 0.07 + 25, panel_width - 20, 25], ..
         "callback", "on_apply_filter()", ..
         "background", [0.4, 0.4, 0.6], ..
@@ -253,27 +255,39 @@ function update_telemetry_display()
     clean_sig = generate_solar_signal(60, signal_state.sampling_rate, %f);
     [snr, rms_err, corr] = calculate_signal_metrics(clean_sig, signal_state.filtered_signal);
     
-    // Update SNR display with handle validation
+    // Update SNR display with handle validation and context
     if ~isempty(telemetry_handles.snr_display) then
         try
-            telemetry_handles.snr_display.string = sprintf("SNR: %.2f dB", snr);
+            // Add quality assessment based on SNR
+            if snr > 20 then
+                quality = "Excellent";
+            elseif snr > 10 then
+                quality = "Good";
+            elseif snr > 0 then
+                quality = "Fair";
+            else
+                quality = "Poor";
+            end
+            telemetry_handles.snr_display.string = sprintf("Signal Quality: %.1f dB (%s)", snr, quality);
         catch
             // Handle is invalid, skip update
         end
     end
     
-    // Update filter info with handle validation
+    // Update filter info with handle validation and details
     if ~isempty(telemetry_handles.filter_info) then
         try
             select signal_state.filter_type
             case "moving_average" then
                 telemetry_handles.filter_info.string = sprintf(..
-                    "Filter: Moving Average (Window: %d)", signal_state.filter_window);
+                    "Active Filter: Moving Average (Window: %d samples)", ..
+                    signal_state.filter_window);
             case "butterworth" then
                 telemetry_handles.filter_info.string = sprintf(..
-                    "Filter: Butterworth (Cutoff: %.2f Hz)", signal_state.cutoff_frequency);
+                    "Active Filter: Butterworth (Cutoff: %.2f Hz)", ..
+                    signal_state.cutoff_frequency);
             else
-                telemetry_handles.filter_info.string = "Filter: None";
+                telemetry_handles.filter_info.string = "Active Filter: None (Raw Signal)";
             end
         catch
             // Handle is invalid, skip update
@@ -296,13 +310,15 @@ function on_filter_type_change()
     fig = gcf();
     radio_buttons = findobj(fig, "style", "radiobutton");
     
-    for i = 1:size(radio_buttons)
+    for i = 1:size(radio_buttons, 1)
         if radio_buttons(i).tag == "radio_moving_avg" & radio_buttons(i).value == 1 then
             signal_state.filter_type = "moving_average";
-            telemetry_handles.filter_label.string = sprintf("Window Size: %d", signal_state.filter_window);
+            telemetry_handles.filter_label.string = sprintf(..
+                "Current: Window Size = %d samples", signal_state.filter_window);
         elseif radio_buttons(i).tag == "radio_butterworth" & radio_buttons(i).value == 1 then
             signal_state.filter_type = "butterworth";
-            telemetry_handles.filter_label.string = sprintf("Cutoff Freq: %.2f Hz", signal_state.cutoff_frequency);
+            telemetry_handles.filter_label.string = sprintf(..
+                "Current: Cutoff Freq = %.2f Hz", signal_state.cutoff_frequency);
         end
     end
     
@@ -339,12 +355,14 @@ function on_filter_param_change()
     case "moving_average" then
         signal_state.filter_window = param_value;
         if ~isempty(telemetry_handles.filter_label) then
-            telemetry_handles.filter_label.string = sprintf("Window Size: %d", param_value);
+            telemetry_handles.filter_label.string = sprintf(..
+                "Current: Window Size = %d samples", param_value);
         end
     case "butterworth" then
         signal_state.cutoff_frequency = param_value / 100;  // Scale to reasonable frequency
         if ~isempty(telemetry_handles.filter_label) then
-            telemetry_handles.filter_label.string = sprintf("Cutoff Freq: %.2f Hz", signal_state.cutoff_frequency);
+            telemetry_handles.filter_label.string = sprintf(..
+                "Current: Cutoff Freq = %.2f Hz", signal_state.cutoff_frequency);
         end
     end
     
@@ -376,8 +394,20 @@ function on_noise_change()
     
     signal_state.noise_level = new_noise;
     
+    // Add noise level description
+    if new_noise < 0.3 then
+        noise_desc = "Low radiation";
+    elseif new_noise < 0.8 then
+        noise_desc = "Moderate radiation";
+    elseif new_noise < 1.5 then
+        noise_desc = "High radiation";
+    else
+        noise_desc = "Extreme radiation";
+    end
+    
     if ~isempty(telemetry_handles.noise_label) then
-        telemetry_handles.noise_label.string = sprintf("Noise Level: %.2f", new_noise);
+        telemetry_handles.noise_label.string = sprintf(..
+            "Current Noise: %.2f (%s)", new_noise, noise_desc);
     end
     
     // Regenerate signals with new noise level

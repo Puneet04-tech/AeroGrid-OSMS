@@ -25,24 +25,24 @@ flight_handles = struct(..
 function build_flight_dynamics_panel(parent, panel_width, panel_height)
     global flight_handles;
     
-    // Panel title
+    // Panel title with description
     flight_handles.title = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Panel 1: Flight Dynamics Simulator", ..
+        "string", "Panel 1: Flight Dynamics Simulator - Orbital Mechanics Control", ..
         "position", [10, panel_height - 40, panel_width - 20, 30], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 1, 1], ..
-        "fontsize", 12, ..
+        "fontsize", 11, ..
         "fontweight", "bold", ..
         "horizontalalignment", "center" ..
     );
     
-    // Altitude slider
+    // Altitude slider with range info
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Orbital Altitude (km)", ..
+        "string", "Orbital Altitude (Range: 300-700 km)", ..
         "position", [10, panel_height - 80, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.8, 0.8, 0.8], ..
@@ -64,19 +64,20 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.altitude_label = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "400 km", ..
+        "string", "Current Altitude: 400 km (ISS Orbit)", ..
         "position", [10, panel_height - 135, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 0.8, 0.3], ..
         "fontsize", 10, ..
+        "fontweight", "bold", ..
         "horizontalalignment", "center" ..
     );
     
-    // Thruster button
+    // Thruster button with cost info
     flight_handles.thruster_button = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "🔥 Fire Thrusters (Prograde Burn)", ..
+        "string", "🔥 Fire Thrusters - Prograde Burn (Cost: ~$800k)", ..
         "position", [10, panel_height - 170, panel_width - 20, 30], ..
         "callback", "on_thruster_fire()", ..
         "background", [0.6, 0.4, 0.2], ..
@@ -90,21 +91,22 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     // Skip initial orbit plot to avoid parent issues
     // plot_orbit();
     
-    // Status displays
+    // Status displays section header
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Orbital Parameters:", ..
+        "string", "=== Orbital Parameters ===", ..
         "position", [10, panel_height * 0.32 - 20, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.8, 0.8, 0.8], ..
-        "fontsize", 9 ..
+        "fontsize", 9, ..
+        "horizontalalignment", "center" ..
     );
     
     flight_handles.velocity_display = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Velocity: 7660 m/s", ..
+        "string", "Orbital Velocity: 7660 m/s (27,576 km/h)", ..
         "position", [10, panel_height * 0.32 - 45, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.3, 1, 0.8], ..
@@ -114,7 +116,7 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.period_display = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Orbital Period: 92.6 min", ..
+        "string", "Orbital Period: 92.6 min (~15.4 orbits/day)", ..
         "position", [10, panel_height * 0.32 - 70, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.3, 1, 0.8], ..
@@ -124,18 +126,18 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.eclipse_display = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Eclipse Mode: OFF", ..
+        "string", "Eclipse Mode: OFF (Sunlight - Solar Active)", ..
         "position", [10, panel_height * 0.32 - 95, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [1, 1, 0.3], ..
         "fontsize", 9 ..
     );
     
-    // Eclipse mode toggle button
+    // Eclipse mode toggle button with description
     flight_handles.eclipse_toggle = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "Toggle Eclipse Mode", ..
+        "string", "🌑 Toggle Eclipse Mode (Simulate Earth Shadow)", ..
         "position", [10, panel_height * 0.32 - 120, panel_width - 20, 20], ..
         "callback", "on_eclipse_toggle()", ..
         "background", [0.4, 0.4, 0.5], ..
@@ -143,11 +145,11 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
         "fontsize", 9 ..
     );
     
-    // Status text
+    // Status text with clearer messaging
     flight_handles.status_text = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Status: NOMINAL", ..
+        "string", "Mission Status: NOMINAL - All Systems Operational", ..
         "position", [10, 10, panel_width - 20, 25], ..
         "background", [0.15, 0.15, 0.2], ..
         "foreground", [0.3, 1, 0.3], ..
@@ -156,12 +158,12 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
         "horizontalalignment", "center" ..
     );
     
-    // Add differential equation display (LaTeX-style)
+    // Add differential equation display with explanation
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Orbital Equation: d²r/dt² = -GM/r²", ..
-        "position", [10, panel_height * 0.32 - 120, panel_width - 20, 20], ..
+        "string", "Physics: Newton's Law of Gravitation - F = GMm/r²", ..
+        "position", [10, panel_height * 0.32 - 145, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.6, 0.6, 0.8], ..
         "fontsize", 8, ..
@@ -224,28 +226,38 @@ endfunction
 function update_flight_display()
     global flight_handles, orbit_state;
     
-    // Update altitude label
+    // Update altitude label with context
     altitude_km = orbit_state.altitude / 1000;
-    flight_handles.altitude_label.string = sprintf("%.1f km", altitude_km);
+    if altitude_km < 350 then
+        status_str = " (WARNING: Low Altitude)";
+    elseif altitude_km > 600 then
+        status_str = " (High Altitude)";
+    else
+        status_str = " (Nominal)";
+    end
+    flight_handles.altitude_label.string = sprintf("Current Altitude: %.1f km%s", altitude_km, status_str);
     
-    // Update velocity display
-    flight_handles.velocity_display.string = sprintf("Velocity: %.1f m/s", orbit_state.velocity);
+    // Update velocity display with multiple units
+    velocity_ms = orbit_state.velocity;
+    velocity_kmh = velocity_ms * 3.6;
+    flight_handles.velocity_display.string = sprintf("Orbital Velocity: %.1f m/s (%.0f km/h)", velocity_ms, velocity_kmh);
     
-    // Calculate and update orbital period
+    // Calculate and update orbital period with additional info
     r = sqrt(orbit_state.position_x^2 + orbit_state.position_y^2);
     v = orbit_state.velocity;
     [period, ecc, sma] = calculate_orbital_elements(r, v);
     period_min = period / 60;
-    flight_handles.period_display.string = sprintf("Orbital Period: %.1f min", period_min);
+    orbits_per_day = 1440 / period_min;
+    flight_handles.period_display.string = sprintf("Orbital Period: %.1f min (%.1f orbits/day)", period_min, orbits_per_day);
     
-    // Update eclipse display with handle validation
+    // Update eclipse display with handle validation and detailed status
     if ~isempty(flight_handles.eclipse_display) then
         try
             if orbit_state.eclipse_mode then
-                flight_handles.eclipse_display.string = "Eclipse Mode: ON";
+                flight_handles.eclipse_display.string = "Eclipse Mode: ON (Earth Shadow - Battery Only)";
                 flight_handles.eclipse_display.foreground = [1, 0.5, 0.5];
             else
-                flight_handles.eclipse_display.string = "Eclipse Mode: OFF";
+                flight_handles.eclipse_display.string = "Eclipse Mode: OFF (Sunlight - Solar Active)";
                 flight_handles.eclipse_display.foreground = [1, 1, 0.3];
             end
         catch
@@ -253,11 +265,11 @@ function update_flight_display()
         end
     end
     
-    // Update status text with handle validation
+    // Update status text with handle validation and detailed messaging
     if ~isempty(flight_handles.status_text) then
         try
             if orbit_state.critical_attrition then
-                flight_handles.status_text.string = "CRITICAL ATTRITION DETECTED";
+                flight_handles.status_text.string = "Mission Status: CRITICAL - Atmospheric Drag Hazard!";
                 flight_handles.status_text.foreground = [1, 0.2, 0.2];
                 // Blink effect (simplified)
                 if modulo(getdate()(9), 2) == 0 then
@@ -266,7 +278,7 @@ function update_flight_display()
                     flight_handles.status_text.background = [0.15, 0.15, 0.2];
                 end
             else
-                flight_handles.status_text.string = "Status: NOMINAL";
+                flight_handles.status_text.string = "Mission Status: NOMINAL - All Systems Operational";
                 flight_handles.status_text.foreground = [0.3, 1, 0.3];
                 flight_handles.status_text.background = [0.15, 0.15, 0.2];
             end
