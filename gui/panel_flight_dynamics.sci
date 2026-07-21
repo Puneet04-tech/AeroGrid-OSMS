@@ -77,7 +77,7 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.thruster_button = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "🔥 Fire Thrusters - Prograde Burn (Cost: ~$800k)", ..
+        "string", "Fire Thrusters - Prograde Burn (Cost: ~$800k)", ..
         "position", [10, panel_height - 170, panel_width - 20, 30], ..
         "callback", "on_thruster_fire()", ..
         "background", [0.6, 0.4, 0.2], ..
@@ -162,7 +162,7 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Physics: Newton's Law of Gravitation - F = GMm/r^2", ..
+        "string", "Physics: Newton Law of Gravitation - F = GMm/r^2", ..
         "position", [10, panel_height * 0.32 - 145, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.6, 0.6, 0.8], ..

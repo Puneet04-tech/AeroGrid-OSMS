@@ -182,7 +182,7 @@ function build_telemetry_panel(parent, panel_width, panel_height)
     telemetry_handles.apply_filter_button = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "🔄 Re-Apply Filter (Process Signal)", ..
+        "string", "Re-Apply Filter (Process Signal)", ..
         "position", [10, panel_height * 0.07 + 25, panel_width - 20, 25], ..
         "callback", "on_apply_filter()", ..
         "background", [0.4, 0.4, 0.6], ..

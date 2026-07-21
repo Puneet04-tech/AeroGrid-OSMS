@@ -57,7 +57,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
     power_handles.subsystem_checkboxes.oxygen = uicontrol(..
         "parent", parent, ..
         "style", "checkbox", ..
-        "string", "☁️ Oxygen Generation - Essential (15 kW)", ..
+        "string", "Oxygen Generation - Essential (15 kW)", ..
         "position", [10, panel_height - 95, panel_width - 20, 20], ..
         "value", 1, ..
         "callback", "on_subsystem_toggle(""oxygen"")", ..
@@ -70,7 +70,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
     power_handles.subsystem_checkboxes.comms = uicontrol(..
         "parent", parent, ..
         "style", "checkbox", ..
-        "string", "📡 Communications - Essential (10 kW)", ..
+        "string", "Communications - Essential (10 kW)", ..
         "position", [10, panel_height - 120, panel_width - 20, 20], ..
         "value", 1, ..
         "callback", "on_subsystem_toggle(""comms"")", ..
@@ -83,7 +83,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
     power_handles.subsystem_checkboxes.cryo_labs = uicontrol(..
         "parent", parent, ..
         "style", "checkbox", ..
-        "string", "❄️ Cryogenic Labs - Non-Essential (25 kW)", ..
+        "string", "Cryogenic Labs - Non-Essential (25 kW)", ..
         "position", [10, panel_height - 145, panel_width - 20, 20], ..
         "value", 0, ..
         "callback", "on_subsystem_toggle(""cryo_labs"")", ..
@@ -255,7 +255,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
     power_handles.emergency_button = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "⚠ Emergency: Space Debris Collision (Inject Noise)", ..
+        "string", "Emergency: Space Debris Collision (Inject Noise)", ..
         "position", [10, 45, panel_width - 20, 25], ..
         "callback", "trigger_emergency()", ..
         "background", [0.8, 0.2, 0.2], ..
@@ -267,7 +267,7 @@ function build_power_grid_panel(parent, panel_width, panel_height)
     power_handles.export_button = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "📊 Export Telemetry to CSV Files", ..
+        "string", "Export Telemetry to CSV Files", ..
         "position", [10, 15, panel_width - 20, 25], ..
         "callback", "export_all_data()", ..
         "background", [0.3, 0.3, 0.6], ..

@@ -183,7 +183,7 @@ function create_control_buttons(fig_width)
     uicontrol(..
         "parent", gui_handles.main_window, ..
         "style", "pushbutton", ..
-        "string", "▶ Start Simulation", ..
+        "string", "Start Simulation", ..
         "position", [GUI_PANEL_MARGIN, button_y, button_width, button_height], ..
         "callback", "toggle_simulation()", ..
         "background", [0.3, 0.6, 0.3], ..
@@ -208,7 +208,7 @@ function create_control_buttons(fig_width)
     gui_handles.export_button = uicontrol(..
         "parent", gui_handles.main_window, ..
         "style", "pushbutton", ..
-        "string", "📊 Export Telemetry", ..
+        "string", "Export Telemetry", ..
         "position", [GUI_PANEL_MARGIN + 2 * (button_width + GUI_PANEL_MARGIN) + 50, ..
                      button_y, button_width, button_height], ..
         "callback", "export_all_data()", ..
@@ -220,7 +220,7 @@ function create_control_buttons(fig_width)
     uicontrol(..
         "parent", gui_handles.main_window, ..
         "style", "pushbutton", ..
-        "string", "🔄 Reset Simulation", ..
+        "string", "Reset Simulation", ..
         "position", [fig_width - button_width - GUI_PANEL_MARGIN, button_y, ..
                      button_width, button_height], ..
         "callback", "reset_simulation()", ..
