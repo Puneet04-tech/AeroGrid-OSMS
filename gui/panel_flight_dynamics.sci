@@ -77,7 +77,7 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.thruster_button = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "Fire Thrusters - Prograde Burn (Cost: ~$800k)", ..
+        "string", "Fire Thrusters - Prograde Burn (Cost: approx $800k)", ..
         "position", [10, panel_height - 170, panel_width - 20, 30], ..
         "callback", "on_thruster_fire()", ..
         "background", [0.6, 0.4, 0.2], ..
@@ -116,7 +116,7 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.period_display = uicontrol(..
         "parent", parent, ..
         "style", "text", ..
-        "string", "Orbital Period: 92.6 min (~15.4 orbits/day)", ..
+        "string", "Orbital Period: 92.6 min (approx 15.4 orbits/day)", ..
         "position", [10, panel_height * 0.32 - 70, panel_width - 20, 20], ..
         "background", [0.2, 0.2, 0.25], ..
         "foreground", [0.3, 1, 0.8], ..
@@ -137,7 +137,7 @@ function build_flight_dynamics_panel(parent, panel_width, panel_height)
     flight_handles.eclipse_toggle = uicontrol(..
         "parent", parent, ..
         "style", "pushbutton", ..
-        "string", "🌑 Toggle Eclipse Mode (Simulate Earth Shadow)", ..
+        "string", "Toggle Eclipse Mode (Simulate Earth Shadow)", ..
         "position", [10, panel_height * 0.32 - 120, panel_width - 20, 20], ..
         "callback", "on_eclipse_toggle()", ..
         "background", [0.4, 0.4, 0.5], ..

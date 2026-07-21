@@ -194,7 +194,7 @@ function create_control_buttons(fig_width)
     gui_handles.emergency_button = uicontrol(..
         "parent", gui_handles.main_window, ..
         "style", "pushbutton", ..
-        "string", "⚠ Space Debris Emergency", ..
+        "string", "Space Debris Emergency", ..
         "position", [GUI_PANEL_MARGIN + button_width + GUI_PANEL_MARGIN, button_y, ..
                      button_width + 50, button_height], ..
         "callback", "trigger_emergency()", ..
